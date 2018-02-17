@@ -14,12 +14,18 @@ public class VendingMachinTest {
 	private VendingMachine underTest;
 	private Dime dime;
 	private Nickel nickel;
+	private Quarter quarter;
+	Dollar dollar;
+	
 	
 	@Before
 	public void setup() {
 		underTest = new VendingMachine(); 
 		dime = new Dime();
 		nickel = new Nickel(); 
+		quarter = new Quarter();
+		 dollar = new Dollar();
+	
 	}
 	
 	
@@ -66,14 +72,52 @@ public class VendingMachinTest {
 		double check = .15;
 		
 		assertEquals(check, (underTest.amountInserted()),.001);
+	}
+	
+	@Test
+	public void vendingMachineInsertQuarter() {
+		Quarter quarter = new Quarter(); 
+		underTest.coinInsert(quarter);
 		
+		double check = .25; 
+		
+		assertEquals(check, (underTest.amountInserted()),.001);
+
+	}
+
+	@Test
+	public void vendingMachineInsertDollar() {
+		Dollar dollar = new Dollar(); 
+		
+		underTest.coinInsert(dollar);
+		
+		double check = 1.00; 
+		
+		assertEquals(check, (underTest.amountInserted()), .001);
 		
 	}
 	
+	@Test
+	public void addingADollarTwentyFive() {
+		underTest.coinInsert(quarter,dollar);
+		
+		double check = 1.25; 
+		
+		
+		assertEquals(check, underTest.amountInserted(), .001);
+		
+	}
 	
-	
-	
-	
+	@Test
+	public void addingFiftyCents() {
+		underTest.coinInsert(quarter,quarter);
+		double check = .50; 
+		
+		assertEquals(check, underTest.amountInserted(), .001);
+		
+		
+		
+	}
 	
 //	@Test
 //	public void nickelObjectInseretedIntoMaching() {
