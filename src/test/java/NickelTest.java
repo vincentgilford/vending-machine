@@ -16,7 +16,7 @@ public class NickelTest {
 		
 		double check = underTest.getValue();
 		assertThat(.05, is(check));
-		
+
 	}
 	
 	@Test
@@ -26,9 +26,9 @@ public class NickelTest {
 		double check = .05;
 		
 		assertThat(check,is(underTest.getValue()));
-		
-		
-		
 	}
+	
+	
+	
 	
 }

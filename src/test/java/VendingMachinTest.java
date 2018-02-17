@@ -1,3 +1,4 @@
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.hamcrest.Matchers.is;
@@ -11,11 +12,14 @@ import org.mockito.MockitoAnnotations;
 
 public class VendingMachinTest {
 	private VendingMachine underTest;
+	private Dime dime;
+	private Nickel nickel;
 	
 	@Before
 	public void setup() {
 		underTest = new VendingMachine(); 
-		
+		dime = new Dime();
+		nickel = new Nickel(); 
 	}
 	
 	
@@ -38,11 +42,35 @@ public class VendingMachinTest {
 		underTest.coinInsert(dime);
 		underTest.amountInserted();
 		double check = .10; 
-		
+
 		assertThat(check, is(underTest.amountInserted()));
+	}
+	
+	@Test
+	public void nickelAndDimeInsert() {
+		underTest.coinInsert(dime);
+		underTest.coinInsert(nickel);
+		
+		
+		underTest.amountInserted();
+		
+		double check = .15; 
+		
+		assertEquals(check, (underTest.amountInserted()),.001); 
+	}
+	
+	@Test
+	public void nickelAndDimeSimulatenousInsert() {
+		underTest.coinInsert(nickel,dime);
+		
+		double check = .15;
+		
+		assertEquals(check, (underTest.amountInserted()),.001);
 		
 		
 	}
+	
+	
 	
 	
 	

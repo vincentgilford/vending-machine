@@ -5,7 +5,7 @@ public class VendingMachine {
 	
 	
 	
-	private double sum;
+	private double sum = 0;
 
 
 	public double amountInserted() {
@@ -14,9 +14,11 @@ public class VendingMachine {
 	}
 
 
-	public void coinInsert(Money money) {
+	public void coinInsert(Money...money) {
 		// TODO Auto-generated method stub
-		  sum = money.getValue();
+		for (Money cash : money) {
+			 sum += cash.getValue();	
+		}
 	}
 
 	
