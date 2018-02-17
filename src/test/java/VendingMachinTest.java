@@ -23,7 +23,8 @@ public class VendingMachinTest {
 	@Test
 	public void assertThatAbilityToTakeRecieveNickel() {
 		VendingMachine underTest = new VendingMachine(); 
-		
+		Nickel nickel = new Nickel();
+		underTest.coinInsert(nickel);
 
 		double check = underTest.amountInserted();
 		

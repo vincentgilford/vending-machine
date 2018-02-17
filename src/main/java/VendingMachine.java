@@ -5,15 +5,18 @@ public class VendingMachine {
 	
 	
 	
+	private double sum;
+
+
 	public double amountInserted() {
 		// TODO Auto-generated method stub
-		return .05;
+		return sum;
 	}
 
 
 	public void coinInsert(Money money) {
 		// TODO Auto-generated method stub
-		
+		  sum = money.getValue();
 	}
 
 	

@@ -2,7 +2,9 @@
 abstract class Money {
 	protected double value;
 	
-	abstract public double getValue();
+	public double getValue() {
+		return value;
+	}
 	
 	
 }
