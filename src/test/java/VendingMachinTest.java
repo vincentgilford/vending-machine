@@ -2,7 +2,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.hamcrest.Matchers.is;
-
+import static org.hamcrest.Matchers.contains;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -113,11 +113,34 @@ public class VendingMachinTest {
 		underTest.coinInsert(quarter,quarter);
 		double check = .50; 
 		
+		assertEquals(check, underTest.amountInserted(), .001);	
+	}
+	
+	
+	@Test
+	public void addingADollarAndTenCents() {
+		underTest.coinInsert(quarter, quarter,quarter,quarter,dime);
+		
+		double check = 1.10; 
+		
 		assertEquals(check, underTest.amountInserted(), .001);
 		
+	}
+	
+	
+	@Test
+	public void vendingMachineContainsItem() {
+		Item item = new Item("A1","Gummies",1.00); 
+		
+		underTest.itemIntake(item); 
+		
+		Item check = underTest.itemInfo(item.getId()); 
+		
+		assertThat(check, is(underTest.itemInfo(item.getId())));
 		
 		
 	}
+	
 	
 //	@Test
 //	public void nickelObjectInseretedIntoMaching() {
