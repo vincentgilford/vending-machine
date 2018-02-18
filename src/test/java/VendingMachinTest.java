@@ -28,8 +28,8 @@ public class VendingMachinTest {
 		nickel = new Nickel();
 		quarter = new Quarter();
 		dollar = new Dollar();
-		item = new Item("A1", "Gummies", 1.00);
-		anotherItem = new Item("B1", "Chips", .75);
+		item = new Item("A1", "Gummies", 1.00,1);
+		anotherItem = new Item("B1", "Chips", .75,1);
 	
 	}
 
@@ -38,7 +38,6 @@ public class VendingMachinTest {
 		VendingMachine underTest = new VendingMachine();
 		Nickel nickel = new Nickel();
 		underTest.coinInsert(nickel);
-
 		double check = underTest.amountInserted();
 
 		assertThat(.05, is(check));
@@ -181,8 +180,38 @@ public class VendingMachinTest {
 		underTest.returnItem(anotherItem.getId());
 		boolean check = underTest.isItemAvaliable(anotherItem.getId());
 		assertEquals(check,false);
+	}
+	
+	@Test
+	public void itemQuantityForInventory() {
+		Item addItemQuant = new Item("C1","Honey Bun",1.00,1);
+		underTest.itemIntake(addItemQuant);
+		boolean check = underTest.isItemAvaliable(addItemQuant.getId()); 
+	
+		assertEquals(check, true);
+	}
+	
+	@Test
+	public void returnItemMethodFuncitonalChange() {
+		underTest.itemIntake(item,anotherItem);
+		underTest.returnItem(anotherItem.getId());
+		boolean check = underTest.isItemAvaliable(anotherItem.getId());
+		assertEquals(check, false); 
 		
 	}
+	
+	@Test
+	public void returnItemMethodTestTwo() {
+		Item addItemQuant = new Item("C1","Honey Bun",1.00,0);
+		
+		underTest.itemIntake(item,anotherItem, addItemQuant);
+		boolean check = underTest.isItemAvaliable(addItemQuant.getId());
+		
+		assertEquals(check, false); 
+		
+	}
+	
+	
 	
 	// @Test
 	// public void nickelObjectInseretedIntoMaching() {

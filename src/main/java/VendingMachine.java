@@ -36,7 +36,7 @@ public class VendingMachine {
 		for(Item object : item) {
 			items.put(object.getId(),object);
 		}
-	
+		//for maintenance 
 	}
 
 
@@ -53,38 +53,23 @@ public class VendingMachine {
 
 
 	public void returnItem(String id) {
-		// TODO Auto-generated method stub
-		Iterator itr =items.values().iterator();
-		while(itr.hasNext()) {
-			Item object = (Item) itr.next();
-			if (object.getId().equals(id)) {
-				itr.remove();
-			}		
-		}
-//		Set<Entry<String, Item>> entrySet = items.entrySet(); 
-//		Iterator itr = entrySet.iterator();
-//		while(itr.hasNext()) {
-//			Map.Entry item = (Map.Entry) itr.next();
-//			if (item.getKey().equals(id)) {
-//				items.remove(item.getKey());
-//			}
-//		}
-//		for(Item item : items.values()) {
-//			if (item.getId().equals(id)) {
-//				items.remove(item.getId());
-//			}
-//		}
+		items.get(id).removeQuantity();
+		
 	}
 
 
 	public boolean isItemAvaliable(String id) {
-		// TODO Auto-generated method stu		
 		for(Item item : items.values()){
 			if(item.getId().equals(id)) {
-				isPresent = true; 
-			} else {
-				isPresent = false;
+				if (item.getQuantity() > 0) {
+					isPresent = true;
+				} else {
+					isPresent = false; 
+				}
 			}
+			 else {
+				isPresent = false;
+			}	
 			return isPresent;
 		}
 		
