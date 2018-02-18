@@ -1,7 +1,9 @@
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.contains;
 
 import org.junit.Before;
@@ -16,153 +18,193 @@ public class VendingMachinTest {
 	private Nickel nickel;
 	private Quarter quarter;
 	Dollar dollar;
-	
-	
+	Item item;
+	Item anotherItem;
+
 	@Before
 	public void setup() {
-		underTest = new VendingMachine(); 
+		underTest = new VendingMachine();
 		dime = new Dime();
-		nickel = new Nickel(); 
+		nickel = new Nickel();
 		quarter = new Quarter();
-		 dollar = new Dollar();
+		dollar = new Dollar();
+		item = new Item("A1", "Gummies", 1.00);
+		anotherItem = new Item("B1", "Chips", .75);
 	
 	}
-	
-	
-	
+
 	@Test
 	public void assertThatAbilityToTakeRecieveNickel() {
-		VendingMachine underTest = new VendingMachine(); 
+		VendingMachine underTest = new VendingMachine();
 		Nickel nickel = new Nickel();
 		underTest.coinInsert(nickel);
 
 		double check = underTest.amountInserted();
-		
+
 		assertThat(.05, is(check));
 	}
 
 	@Test
 	public void dimeObjectInsertedIntoVending() {
-		Dime dime = new Dime(); 
-		
+		Dime dime = new Dime();
+
 		underTest.coinInsert(dime);
 		underTest.amountInserted();
-		double check = .10; 
+		double check = .10;
 
 		assertThat(check, is(underTest.amountInserted()));
 	}
-	
+
 	@Test
 	public void nickelAndDimeInsert() {
 		underTest.coinInsert(dime);
 		underTest.coinInsert(nickel);
-		
-		
+
 		underTest.amountInserted();
-		
-		double check = .15; 
-		
-		assertEquals(check, (underTest.amountInserted()),.001); 
+
+		double check = .15;
+
+		assertEquals(check, (underTest.amountInserted()), .001);
 	}
-	
+
 	@Test
 	public void nickelAndDimeSimulatenousInsert() {
-		underTest.coinInsert(nickel,dime);
-		
+		underTest.coinInsert(nickel, dime);
+
 		double check = .15;
-		
-		assertEquals(check, (underTest.amountInserted()),.001);
+
+		assertEquals(check, (underTest.amountInserted()), .001);
 	}
-	
+
 	@Test
 	public void vendingMachineInsertQuarter() {
-		Quarter quarter = new Quarter(); 
+		Quarter quarter = new Quarter();
 		underTest.coinInsert(quarter);
-		
-		double check = .25; 
-		
-		assertEquals(check, (underTest.amountInserted()),.001);
+
+		double check = .25;
+
+		assertEquals(check, (underTest.amountInserted()), .001);
 
 	}
 
 	@Test
 	public void vendingMachineInsertDollar() {
-		Dollar dollar = new Dollar(); 
-		
+		Dollar dollar = new Dollar();
+
 		underTest.coinInsert(dollar);
-		
-		double check = 1.00; 
-		
+
+		double check = 1.00;
+
 		assertEquals(check, (underTest.amountInserted()), .001);
-		
+
 	}
-	
+
 	@Test
 	public void addingADollarTwentyFive() {
-		underTest.coinInsert(quarter,dollar);
-		
-		double check = 1.25; 
-		
-		
+		underTest.coinInsert(quarter, dollar);
+
+		double check = 1.25;
+
 		assertEquals(check, underTest.amountInserted(), .001);
-		
+
 	}
-	
+
 	@Test
 	public void addingFiftyCents() {
-		underTest.coinInsert(quarter,quarter);
-		double check = .50; 
-		
-		assertEquals(check, underTest.amountInserted(), .001);	
+		underTest.coinInsert(quarter, quarter);
+		double check = .50;
+
+		assertEquals(check, underTest.amountInserted(), .001);
 	}
-	
-	
+
 	@Test
 	public void addingADollarAndTenCents() {
-		underTest.coinInsert(quarter, quarter,quarter,quarter,dime);
-		
-		double check = 1.10; 
-		
+		underTest.coinInsert(quarter, quarter, quarter, quarter, dime);
+
+		double check = 1.10;
+
 		assertEquals(check, underTest.amountInserted(), .001);
-		
+
 	}
+
+	@Test
+	public void vendingMachineContainsItem() {
+		Item item = new Item("A1", "Gummies", 1.00);
+
+		underTest.itemIntake(item);
+
+		Item check = underTest.itemInfo(item.getId());
+
+		assertThat(check, is(underTest.itemInfo(item.getId())));
+	}
+
+	@Test
+	public void vendingMachineIntakeWithTwoItems() {
+		Item item = new Item("A1", "Gummies", 1.00);
+		Item anotherItem = new Item("B1", "Chips", .75);
+
+		underTest.itemIntake(anotherItem, item);
+
+		Item check = underTest.itemInfo(item.getId());
+		Item checkNextItem = underTest.itemInfo(anotherItem.getId());
+
+		assertThat(check, is(underTest.itemInfo(item.getId())));
+		assertThat(checkNextItem, is(underTest.itemInfo(anotherItem.getId())));
+	}
+
+	@Test
+	public void coinReturnForVendingMachine() {
+		underTest.coinInsert(quarter,quarter);	
+		double checkBefore = underTest.amountInserted();
+		
+		
+		underTest.coinReturn(); 
+		double checkAfter = underTest.amountInserted();
+	
+		assertEquals(checkBefore, .50, .001);
+		assertNotEquals(checkBefore, checkAfter, .001);		
+	}
+
 	
 	
 	@Test
-	public void vendingMachineContainsItem() {
-		Item item = new Item("A1","Gummies",1.00); 
-		
-		underTest.itemIntake(item); 
-		
-		Item check = underTest.itemInfo(item.getId()); 
-		
-		assertThat(check, is(underTest.itemInfo(item.getId())));
-		
+	public void vendItemBasedOfPrice() {
+		underTest.itemIntake(item,anotherItem);
+		underTest.returnItem(item.getId());
+		boolean check = underTest.isItemAvaliable(item.getId());
+		assertEquals(check, false);
+	}
+	
+	@Test
+	public void vendItemBasedOfPriceDeux() {
+		underTest.itemIntake(item,anotherItem);
+		underTest.returnItem(anotherItem.getId());
+		boolean check = underTest.isItemAvaliable(anotherItem.getId());
+		assertEquals(check,false);
 		
 	}
 	
-	
-//	@Test
-//	public void nickelObjectInseretedIntoMaching() {
-//		Nickel nickel = new Nickel(); 
-//		underTest.coinInsert(nickel);
-//		
-//		double check = .05;
-//		
-//		assertThat(check, is(underTest.amountInserted()));
-//		
-//		
-//	}
-	
-//	@Test
-//	public void assertAbilityToRecieveDime() {
-//		VendingMachine underTest = new VendingMachine();
-//		
-//		underTest.coinInserted();
-//		
-//		double check = underTest.amountInserted();
-//		
-//		assertThat(.10,is(check));
-//		
-//	}
+	// @Test
+	// public void nickelObjectInseretedIntoMaching() {
+	// Nickel nickel = new Nickel();
+	// underTest.coinInsert(nickel);
+	//
+	// double check = .05;
+	//
+	// assertThat(check, is(underTest.amountInserted()));
+	//
+	//
+	// }
+
+	// @Test
+	// public void assertAbilityToRecieveDime() {
+	// VendingMachine underTest = new VendingMachine();
+	//
+	// underTest.coinInserted();
+	//
+	// double check = underTest.amountInserted();
+	//
+	// assertThat(.10,is(check));
+	//
+	// }
 }
