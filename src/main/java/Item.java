@@ -49,4 +49,11 @@ public class Item {
 		quantity--;
 	}
 
+
+
+	public void addQuantity(int intakeAmount) {
+		// TODO Auto-generated method stub
+		quantity += intakeAmount;
+	}
+
 }

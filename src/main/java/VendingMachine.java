@@ -66,14 +66,25 @@ public class VendingMachine {
 				} else {
 					isPresent = false; 
 				}
+				
+				isPresent = true;
 			}
 			 else {
-				isPresent = false;
+				System.out.println("Item not in Vending Machine");
+				 isPresent = false;
 			}	
-			return isPresent;
+		}	
+		return isPresent;
+	}
+
+
+	public void restockItems(String id, int intakeAmount) {
+		for(Item item  : items.values()) {
+			if(item.getId().equals(id)) {
+				item.addQuantity(intakeAmount);
+			}
 		}
 		
-		return isPresent;
 	}
 
 	
