@@ -33,8 +33,8 @@ public class VendingMachine {
 
 	public void itemIntake(Item...item) {
 		// TODO Auto-generated method stub
-		for(Item object : item) {
-			items.put(object.getId(),object);
+		for(Item snack : item) {
+			items.put(snack.getId(),snack);
 		}
 		//for maintenance 
 	}
@@ -59,10 +59,12 @@ public class VendingMachine {
 
 
 	public boolean isItemAvaliable(String id) {
+		isPresent = false;
 		for(Item item : items.values()){
-			if(item.getId().equals(id)) {
+			if(item.getId().trim().equals(id)) {
 				if (item.getQuantity() > 0) {
 					isPresent = true;
+					break;
 				} else {
 					isPresent = false; 
 				}
@@ -71,7 +73,7 @@ public class VendingMachine {
 			}
 			 else {
 				System.out.println("Item not in Vending Machine");
-				 isPresent = false;
+				isPresent = false;
 			}	
 		}	
 		return isPresent;

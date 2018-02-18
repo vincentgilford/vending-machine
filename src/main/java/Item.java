@@ -31,8 +31,7 @@ public class Item {
 
 	public String getId() {
 		// TODO Auto-generated method stub
-		return vendingId
-				;
+		return vendingId;
 	}
 
 

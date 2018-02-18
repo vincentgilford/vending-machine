@@ -214,8 +214,8 @@ public class VendingMachinTest {
 	public void vendingMachineReStock() {
 		Item addItemQuant = new Item("C1","Honey Bun",1.00,1);
 		Item itemAddTest = new Item("D1","Snickers",.75,1);
-		underTest.itemIntake(addItemQuant,item);
-		underTest.itemIntake(itemAddTest,anotherItem);
+		underTest.itemIntake(addItemQuant,item,anotherItem);
+	
 //		boolean checkBefore = underTest.isItemAvaliable(addItemQuant.getId());//false
 //		underTest.restockItems(addItemQuant.getId(),2);
 		boolean checkAfter = underTest.isItemAvaliable(addItemQuant.getId());//true
